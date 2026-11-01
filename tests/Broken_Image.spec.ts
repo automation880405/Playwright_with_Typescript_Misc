@@ -12,16 +12,15 @@ test.beforeEach(async({page})=>{
 test('verify the broken images',async({page})=>{
     await expect(page.getByText('Broken Images')).toBeVisible();
     const imageElements = await page.locator('img');
-    //Verify total images	3 images
-    await expect(imageElements).toHaveCount(3);
+    //Verify total images
+    await expect(imageElements).toHaveCount(4);
     //   // Check every image
 
     for (let i =0;i< await imageElements.count();i++) {
         const imageElement = imageElements.nth(i);
         const imageSrc = await imageElement.getAttribute('src');
         const imageResponse = await page.request.get(imageSrc || '');
-    
+    }
 });
-
 
 })

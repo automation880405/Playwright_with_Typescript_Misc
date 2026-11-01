@@ -2,6 +2,10 @@
 pipeline {
     agent any
 
+    environment {
+        CI = 'true'
+    }
+
     stages {
         stage('Checkout') {
             steps {
@@ -18,13 +22,14 @@ pipeline {
 
         stage('Run Playwright Tests') {
             steps {
-                bat 'npx playwright test --project=chromium'
+                bat 'npm run test:ci'
             }
         }
     }
 
     post {
         always {
+            junit testResults: 'test-results/junit.xml', allowEmptyResults: true
             archiveArtifacts artifacts: 'playwright-report/**, test-results/**',
                              allowEmptyArchive: true
         }
